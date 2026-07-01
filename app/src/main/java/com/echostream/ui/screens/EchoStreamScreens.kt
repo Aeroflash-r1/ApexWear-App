@@ -49,8 +49,6 @@ import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.TimeTextDefaults
 import androidx.wear.compose.material.Vignette
 import androidx.wear.compose.material.VignettePosition
-import androidx.wear.compose.material.VignettePosition
-import androidx.wear.compose.material.scrollAway
 import com.echostream.data.db.TrackEntity
 import com.echostream.data.model.SearchResult
 import com.echostream.ui.theme.SpotifyGreen
