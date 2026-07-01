@@ -29,14 +29,14 @@
 -dontwarn okio.**
 
 # ── Moshi ─────────────────────────────────────────────────────────────────────
--keepclassmembers class * { `@com.squareup.moshi.Json` *; }
--keep `@com.squareup.moshi.JsonClass` class * { *; }
+-keepclassmembers class * { @com.squareup.moshi.Json *; }
+-keep @com.squareup.moshi.JsonClass class * { *; }
 -keep class com.squareup.moshi.** { *; }
 
 # ── Room ──────────────────────────────────────────────────────────────────────
 -keep class * extends androidx.room.RoomDatabase
--keep `@androidx.room.Entity` class * { *; }
--keep `@androidx.room.Dao` interface * { *; }
+-keep @androidx.room.Entity class * { *; }
+-keep @androidx.room.Dao interface * { *; }
 
 # ── Kotlin ────────────────────────────────────────────────────────────────────
 -keep class kotlin.Metadata { *; }
