@@ -52,6 +52,8 @@
 # ── NewPipe Extractor ─────────────────────────────────────────────────────────
 -keep class org.schabi.newpipe.extractor.** { *; }
 -dontwarn org.schabi.newpipe.extractor.**
+-dontwarn org.mozilla.javascript.**
+-dontwarn java.beans.**
 
 # ── Wear Compose ─────────────────────────────────────────────────────────────
 -keep class androidx.wear.compose.** { *; }
