@@ -50,7 +50,7 @@ android {
     }
     kotlinOptions { jvmTarget = "17" }
     lint {
-        disable += "MissingQuantity", "NullMutableLiveData"
+        disable += listOf("MissingQuantity", "NullMutableLiveData")
         abortOnError = false
         checkReleaseBuilds = false
     }
