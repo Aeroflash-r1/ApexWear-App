@@ -2,6 +2,7 @@ package com.echostream.network
 
 import android.util.Log
 import com.echostream.data.model.SearchResult
+import com.echostream.data.model.StreamConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -19,24 +20,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 class InvidiousClient {
-    private val instances = listOf(
-        "https://inv.tux.pizza",
-        "https://invidious.private.coffee",
-        "https://invidious.projectsegfau.lt",
-        "https://yt.artemislena.eu",
-        "https://invidious.slipfox.xyz",
-        "https://invidious.fdn.fr",
-        "https://vid.puffyan.us",
-        "https://invidious.nerdvpn.de"
-    )
-
-    private val pipedInstances = listOf(
-        "https://pipedapi.kavin.rocks",
-        "https://piped-api.noseka1.com",
-        "https://pipedapi.drgns.space",
-        "https://api.piped.yt",
-        "https://pipedapi.r4fo.com"
-    )
+    private var instances = StreamConfig.DEFAULT_INVIDIOUS
+    private var pipedInstances = StreamConfig.DEFAULT_PIPED
+    private var youtubeMusicKey = StreamConfig.DEFAULT_YT_MUSIC_KEY
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)
@@ -80,6 +66,13 @@ class InvidiousClient {
             }.ifEmpty { instances }
             Log.d(TAG, "Healthy instances: ${healthyInstances.size}/${instances.size}")
         }
+    }
+
+    fun applyConfig(config: StreamConfig) {
+        instances = config.invidiousInstances
+        pipedInstances = config.pipedInstances
+        youtubeMusicKey = config.youtubeMusicKey
+        Log.d(TAG, "Applied remote config: ${instances.size} invidious, ${pipedInstances.size} piped")
     }
 
     suspend fun searchVideos(query: String): List<SearchResult> = withContext(Dispatchers.IO) {
@@ -224,7 +217,7 @@ class InvidiousClient {
                 .toRequestBody(JSON_MEDIA_TYPE)
 
             val request = Request.Builder()
-                .url("https://music.youtube.com/youtubei/v1/search?key=$YOUTUBE_MUSIC_KEY")
+                .url("https://music.youtube.com/youtubei/v1/search?key=$youtubeMusicKey")
                 .defaultHeaders()
                 .header("Origin", "https://music.youtube.com")
                 .header("Referer", "https://music.youtube.com/search")
@@ -554,7 +547,6 @@ class InvidiousClient {
         const val TAG = "InvidiousClient"
         const val MAX_SEARCH_RESULTS = 20
         const val USER_AGENT = "Mozilla/5.0 (Linux; Android 14; Wear OS) AppleWebKit/537.36 Chrome/120 Mobile Safari/537.36 EchoStream/1.0"
-        const val YOUTUBE_MUSIC_KEY = "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
         val JSON_MEDIA_TYPE = "application/json; charset=utf-8".toMediaType()
     }
 }

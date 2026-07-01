@@ -1,0 +1,20 @@
+{
+  "invidiousInstances": [
+    "https://inv.tux.pizza",
+    "https://invidious.private.coffee",
+    "https://invidious.projectsegfau.lt",
+    "https://yt.artemislena.eu",
+    "https://invidious.slipfox.xyz",
+    "https://invidious.fdn.fr",
+    "https://vid.puffyan.us",
+    "https://invidious.nerdvpn.de"
+  ],
+  "pipedInstances": [
+    "https://pipedapi.kavin.rocks",
+    "https://piped-api.noseka1.com",
+    "https://pipedapi.drgns.space",
+    "https://api.piped.yt",
+    "https://pipedapi.r4fo.com"
+  ],
+  "youtubeMusicKey": "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
+}

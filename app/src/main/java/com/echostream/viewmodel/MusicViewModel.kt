@@ -15,6 +15,7 @@ import com.echostream.data.db.AppDatabase
 import com.echostream.data.db.TrackDao
 import com.echostream.data.db.TrackEntity
 import com.echostream.data.model.SearchResult
+import com.echostream.data.model.StreamConfig
 import com.echostream.data.model.Track
 import com.echostream.network.InvidiousClient
 import com.echostream.player.MusicPlaybackService
@@ -73,6 +74,8 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     try {
+                        val config = StreamConfig.loadFromRemote()
+                        invidiousClient.applyConfig(config)
                         invidiousClient.initialize()
                     } catch (e: Exception) {
                         Log.e("MusicViewModel", "Invidious init failed: ${e.message}", e)
