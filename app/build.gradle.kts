@@ -15,7 +15,8 @@ android {
         targetSdk = 35
         versionCode = 2
         versionName = "1.1.0"
-        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
+        ndk { abiFilters += listOf("arm64-v8a") }
+        resConfigs("en")
     }
 
     buildTypes {
@@ -75,7 +76,6 @@ dependencies {
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)
     implementation(libs.okhttp)
-    implementation(libs.moshi.kotlin)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.coroutines.android)

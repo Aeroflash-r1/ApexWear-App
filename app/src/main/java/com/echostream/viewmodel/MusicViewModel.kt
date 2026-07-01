@@ -259,7 +259,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
                     _isPlaying.value = controller.isPlaying
                     _isBuffering.value = controller.playbackState == Player.STATE_BUFFERING
                 }
-                delay(500L)
+                if (_isPlaying.value) delay(1000L) else delay(3000L)
             }
         }
     }
