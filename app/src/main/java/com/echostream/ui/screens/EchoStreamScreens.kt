@@ -43,10 +43,12 @@ import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.TimeTextDefaults
 import androidx.wear.compose.material.Vignette
+import androidx.wear.compose.material.VignettePosition
 import androidx.wear.compose.material.VignettePosition
 import androidx.wear.compose.material.scrollAway
 import com.echostream.data.db.TrackEntity
