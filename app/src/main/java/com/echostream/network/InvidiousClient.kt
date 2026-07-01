@@ -423,13 +423,39 @@ class InvidiousClient {
 
     private fun parseInvidiousAudioUrl(body: String): String? {
         val root = JSONObject(body)
-        val adaptiveFormats = root.optJSONArray("adaptiveFormats") ?: return null
-        return selectHighestBitrateUrl(adaptiveFormats) { format ->
-            val url = format.optString("url")
-            if (url.isBlank() || format.has("signatureCipher") || format.has("cipher")) return@selectHighestBitrateUrl false
-            val type = format.optString("type")
-            type.contains("audio/webm") || type.contains("audio/mp4")
+
+        // Try adaptiveFormats first
+        root.optJSONArray("adaptiveFormats")?.let { formats ->
+            selectHighestBitrateUrl(formats) { format ->
+                val url = format.optString("url")
+                if (url.isBlank() || format.has("signatureCipher") || format.has("cipher")) return@selectHighestBitrateUrl false
+                val type = format.optString("type", format.optString("mimeType", ""))
+                type.contains("audio/webm", ignoreCase = true) || type.contains("audio/mp4", ignoreCase = true)
+            }?.let { return it }
         }
+
+        // Fallback to formatStreams (some Invidious instances include direct URLs here)
+        root.optJSONArray("formatStreams")?.let { formats ->
+            selectHighestBitrateUrl(formats) { format ->
+                val url = format.optString("url")
+                if (url.isBlank()) return@selectHighestBitrateUrl false
+                val type = format.optString("type", format.optString("mimeType", ""))
+                type.contains("audio/webm", ignoreCase = true) || type.contains("audio/mp4", ignoreCase = true)
+            }?.let { return it }
+        }
+
+        // Last resort: pick any formatStreams with a direct URL
+        root.optJSONArray("formatStreams")?.let { formats ->
+            for (index in 0 until formats.length()) {
+                val format = formats.optJSONObject(index) ?: continue
+                val url = format.optString("url")
+                if (url.isNotBlank() && !format.has("signatureCipher") && !format.has("cipher")) {
+                    return url
+                }
+            }
+        }
+
+        return null
     }
 
     private fun fetchPipedAudioStreamUrl(videoId: String): String? {
@@ -493,8 +519,8 @@ class InvidiousClient {
     }
 
     private fun scoreAudioStream(format: JSONObject): Int {
-        val type = format.optString("type", format.optString("mimeType"))
-        val container = format.optString("container", format.optString("format"))
+        val type = format.optString("type", format.optString("mimeType", ""))
+        val container = format.optString("container", format.optString("format", ""))
         val codecScore = when {
             type.contains("audio/mp4", ignoreCase = true) || container.contains("m4a", ignoreCase = true) -> 2_000_000
             type.contains("audio/webm", ignoreCase = true) || container.contains("webm", ignoreCase = true) -> 1_000_000
@@ -505,8 +531,8 @@ class InvidiousClient {
 
     private fun scorePlayableVideoStream(format: JSONObject): Int? {
         if (format.optBoolean("videoOnly", false)) return null
-        val type = format.optString("type", format.optString("mimeType"))
-        val container = format.optString("container", format.optString("format"))
+        val type = format.optString("type", format.optString("mimeType", ""))
+        val container = format.optString("container", format.optString("format", ""))
         val isHls = type.contains("mpegurl", ignoreCase = true) || container.contains("hls", ignoreCase = true)
         val isMp4 = type.contains("video/mp4", ignoreCase = true) || container.contains("mp4", ignoreCase = true)
         if (!isMp4 && !isHls) return null
