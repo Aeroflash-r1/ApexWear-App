@@ -42,7 +42,7 @@ import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Scaffold
+import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.TimeTextDefaults
@@ -70,7 +70,7 @@ fun SearchScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        positionIndicator = { androidx.wear.compose.foundation.lazy.rememberPositionIndicator(listState) },
+        positionIndicator = { PositionIndicator(scalingLazyListState = listState) },
         vignette = { Vignette(vignettePosition = VignettePosition.TopAndBottom) },
         timeText = { TimeText(timeTextStyle = TimeTextDefaults.timeTextStyle(color = TextGray)) }
     ) {
@@ -183,7 +183,7 @@ fun PlayerScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        vignette = { Vignette() },
+        vignette = { Vignette(vignettePosition = VignettePosition.TopAndBottom) },
         timeText = { TimeText(timeTextStyle = TimeTextDefaults.timeTextStyle(color = TextGray)) }
     ) {
         val listState = androidx.wear.compose.foundation.lazy.rememberScalingLazyListState()
@@ -381,8 +381,8 @@ fun LibraryScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        positionIndicator = { androidx.wear.compose.foundation.lazy.rememberPositionIndicator(listState) },
-        vignette = { Vignette() },
+        positionIndicator = { PositionIndicator(scalingLazyListState = listState) },
+        vignette = { Vignette(vignettePosition = VignettePosition.TopAndBottom) },
         timeText = { TimeText(timeTextStyle = TimeTextDefaults.timeTextStyle(color = TextGray)) }
     ) {
         ScalingLazyColumn(
@@ -478,7 +478,8 @@ private fun SearchResultCard(
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(
@@ -508,13 +509,14 @@ private fun SavedTrackCard(
     onDelete: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
