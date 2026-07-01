@@ -14,7 +14,7 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://jitpack.io")
             content {
-                includeGroup("com.github.TeamNewPipe")
+                includeGroupByRegex("com\\.github\\.TeamNewPipe.*")
             }
         }
     }
