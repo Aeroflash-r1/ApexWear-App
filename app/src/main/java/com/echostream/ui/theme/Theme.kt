@@ -1,25 +1,15 @@
 package com.echostream.ui.theme
 
 import androidx.compose.runtime.Composable
-import androidx.wear.compose.material.Colors
-import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.MotionScheme
 
 @Composable
 fun EchoStreamTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colors = Colors(
-            primary = SpotifyGreen,
-            secondary = SpotifyPurple,
-            background = SpotifyDarkBG,
-            surface = SpotifySurface,
-            onPrimary = TextWhite,
-            onSecondary = TextWhite,
-            onBackground = TextWhite,
-            onSurface = TextWhite,
-            error = ErrorRed,
-            onError = TextWhite
-        ),
+        colorScheme = coralColorScheme(),
         typography = EchoTypography,
+        motionScheme = MotionScheme.standard(),
         content = content
     )
 }

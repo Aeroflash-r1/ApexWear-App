@@ -3,44 +3,61 @@ package com.echostream.ui.theme
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.wear.compose.material.Typography
+import androidx.wear.compose.material3.Typography
 
 val EchoTypography = Typography(
-    title1 = TextStyle(
-        color = TextWhite,
+    displayLarge = TextStyle(
+        color = TextPrimary,
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold
+    ),
+    displayMedium = TextStyle(
+        color = TextPrimary,
         fontSize = 18.sp,
-        fontWeight = FontWeight.Bold,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.Bold
     ),
-    title2 = TextStyle(
-        color = TextWhite,
+    titleLarge = TextStyle(
+        color = TextPrimary,
         fontSize = 16.sp,
-        fontWeight = FontWeight.SemiBold,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.SemiBold
     ),
-    title3 = TextStyle(
-        color = TextWhite,
+    titleMedium = TextStyle(
+        color = TextPrimary,
         fontSize = 14.sp,
-        fontWeight = FontWeight.Medium,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.Medium
     ),
-    body1 = TextStyle(
-        color = TextWhite,
+    titleSmall = TextStyle(
+        color = TextSecondary,
+        fontSize = 13.sp,
+        fontWeight = FontWeight.Medium
+    ),
+    bodyLarge = TextStyle(
+        color = TextPrimary,
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal
     ),
-    body2 = TextStyle(
-        color = TextGray,
+    bodyMedium = TextStyle(
+        color = TextSecondary,
         fontSize = 12.sp,
         fontWeight = FontWeight.Normal
     ),
-    caption1 = TextStyle(
-        color = TextGray,
+    bodySmall = TextStyle(
+        color = TextTertiary,
         fontSize = 11.sp,
         fontWeight = FontWeight.Normal
     ),
-    caption2 = TextStyle(
-        color = TextDim,
+    labelLarge = TextStyle(
+        color = TextPrimary,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Medium
+    ),
+    labelMedium = TextStyle(
+        color = TextSecondary,
+        fontSize = 11.sp,
+        fontWeight = FontWeight.Medium
+    ),
+    labelSmall = TextStyle(
+        color = TextTertiary,
         fontSize = 10.sp,
         fontWeight = FontWeight.Normal
     )
