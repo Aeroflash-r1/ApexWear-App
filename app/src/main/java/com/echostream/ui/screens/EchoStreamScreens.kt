@@ -1,7 +1,6 @@
 package com.echostream.ui.screens
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -581,14 +580,6 @@ fun PlayerScreen(
 
             Spacer(Modifier.height(8.dp))
 
-            // Buffering indicator
-            AnimatedVisibility(visible = isBuffering) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(28.dp),
-                    strokeWidth = 2.5.dp
-                )
-            }
-
             // Progress arc
             if (duration > 0) {
                 ProgressArc(progress = progress, isPlaying = isPlaying)
@@ -685,14 +676,7 @@ fun PlayerScreen(
 
             Spacer(Modifier.height(4.dp))
 
-            // Back handled by swipe-to-dismiss, keeping a minimal text hint
-            Text(
-                text = "Swipe right to go back",
-                color = TextTertiary,
-                style = MaterialTheme.typography.labelSmall,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 4.dp)
-            )
+            // Navigation handled by swipe-to-dismiss
 
             Spacer(Modifier.height(8.dp))
         }
@@ -775,18 +759,20 @@ private fun PlayPauseButton(
             transitionSpec = { fadeIn() togetherWith fadeOut() },
             label = "playPauseAnim"
         ) { playing ->
-            if (playing && isBuffering) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    strokeWidth = 2.5.dp
-                )
-            } else {
-                Icon(
-                    imageVector = if (playing) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                    contentDescription = if (playing) "Pause" else "Play",
-                    modifier = Modifier.size(28.dp),
-                    tint = TextPrimary
-                )
+            Box(modifier = Modifier.size(28.dp), contentAlignment = Alignment.Center) {
+                if (isBuffering) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        strokeWidth = 2.5.dp
+                    )
+                } else {
+                    Icon(
+                        imageVector = if (playing) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                        contentDescription = if (playing) "Pause" else "Play",
+                        modifier = Modifier.size(28.dp),
+                        tint = TextPrimary
+                    )
+                }
             }
         }
     }
@@ -910,16 +896,7 @@ fun LibraryScreen(
                 )
             }
 
-            // Swipe hint
-            item {
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    text = "Swipe right to go back",
-                    color = TextTertiary,
-                    style = MaterialTheme.typography.labelSmall,
-                    textAlign = TextAlign.Center
-                )
-            }
+
 
             item { Spacer(Modifier.height(8.dp)) }
         }
