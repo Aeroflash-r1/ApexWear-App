@@ -222,9 +222,11 @@ fun SearchScreen(
                 item {
                     Spacer(Modifier.height(24.dp))
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = IconMusicNote,
-                            fontSize = 28.sp
+                        Icon(
+                            imageVector = Icons.Filled.MusicNote,
+                            contentDescription = null,
+                            modifier = Modifier.size(36.dp),
+                            tint = AccentPrimary
                         )
                         Spacer(Modifier.height(8.dp))
                         Text(
@@ -928,7 +930,7 @@ private fun SavedTrackCard(
                     .background(AccentAlpha10),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
+                Icon(
                     imageVector = Icons.Filled.MusicNote,
                     contentDescription = null,
                     modifier = Modifier.size(16.dp),
