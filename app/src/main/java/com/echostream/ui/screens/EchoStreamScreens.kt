@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
+import androidx.wear.compose.material3.Icon
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -97,19 +98,19 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 // ═══════════════════════════════════════════════
-//  Shared action icons (placeholder — will replace
-//  with Material icons in Task 4)
+//  Icon imports (Material Design Icons)
 // ═══════════════════════════════════════════════
-
-private val IconPlay = "\u25B6"
-private val IconPause = "\u23F8"
-private val IconSkipNext = "\u23ED"
-private val IconSkipPrev = "\u23EE"
-private val IconHeart = "\u2665"
-private val IconHeartOutline = "\u2661"
-private val IconSearch = "\uD83D\uDD0D"
-private val IconClose = "\u2716"
-private val IconMusicNote = "\u266B"
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
 
 // ═══════════════════════════════════════════════
 //  SEARCH SCREEN
@@ -303,9 +304,11 @@ private fun SearchInput(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = IconSearch,
-                fontSize = 14.sp
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp),
+                tint = TextSecondary
             )
 
             Spacer(Modifier.width(8.dp))
@@ -338,13 +341,14 @@ private fun SearchInput(
             )
 
             if (query.isNotEmpty()) {
-                Text(
-                    text = IconClose,
-                    color = TextSecondary,
-                    fontSize = 14.sp,
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = "Clear search",
                     modifier = Modifier
                         .clickable { onQueryChange("") }
                         .padding(4.dp)
+                        .size(16.dp),
+                    tint = TextSecondary
                 )
             }
         }
@@ -376,7 +380,12 @@ private fun SearchResultCard(
                     .background(AccentAlpha20),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = IconMusicNote, fontSize = 16.sp)
+                Icon(
+                    imageVector = Icons.Filled.MusicNote,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = AccentPrimary
+                )
             }
 
             Spacer(Modifier.width(10.dp))
@@ -398,10 +407,11 @@ private fun SearchResultCard(
                 )
             }
 
-            Text(
-                text = IconPlay,
-                color = AccentPrimary,
-                fontSize = 14.sp
+            Icon(
+                imageVector = Icons.Filled.PlayArrow,
+                contentDescription = "Play ${result.title}",
+                modifier = Modifier.size(16.dp),
+                tint = AccentPrimary
             )
         }
     }
@@ -633,14 +643,16 @@ fun PlayerScreen(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     ActionButton(
-                        label = IconSkipPrev,
+                        icon = Icons.Filled.SkipPrevious,
+                        contentDescription = "Previous track",
                         onClick = { viewModel.skipToPrevious() },
                         modifier = Modifier.weight(1f)
                     )
 
                     ActionButton(
-                        label = if (isTrackSaved) IconHeart else IconHeartOutline,
+                        icon = if (isTrackSaved) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                         isActive = isTrackSaved,
+                        contentDescription = if (isTrackSaved) "Remove from library" else "Save to library",
                         onClick = {
                             val track = currentTrack ?: return@ActionButton
                             if (isTrackSaved) {
@@ -663,7 +675,8 @@ fun PlayerScreen(
                     )
 
                     ActionButton(
-                        label = IconSkipNext,
+                        icon = Icons.Filled.SkipNext,
+                        contentDescription = "Next track",
                         onClick = { viewModel.skipToNext() },
                         modifier = Modifier.weight(1f)
                     )
@@ -762,21 +775,27 @@ private fun PlayPauseButton(
             transitionSpec = { fadeIn() togetherWith fadeOut() },
             label = "playPauseAnim"
         ) { playing ->
-            Text(
-                text = if (playing) {
-                    if (isBuffering) "\u23F3" else IconPause
-                } else IconPlay,
-                fontSize = 22.sp,
-                textAlign = TextAlign.Center,
-                color = TextPrimary
-            )
+            if (playing && isBuffering) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 2.5.dp
+                )
+            } else {
+                Icon(
+                    imageVector = if (playing) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                    contentDescription = if (playing) "Pause" else "Play",
+                    modifier = Modifier.size(28.dp),
+                    tint = TextPrimary
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun ActionButton(
-    label: String,
+    icon: ImageVector,
+    contentDescription: String,
     isActive: Boolean = false,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -786,14 +805,19 @@ private fun ActionButton(
 
     Button(
         onClick = onClick,
-        modifier = modifier.height(44.dp),
+        modifier = modifier.size(48.dp, 44.dp),
         shape = RoundedCornerShape(22.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = bg,
             contentColor = fg
         )
     ) {
-        Text(text = label, fontSize = 16.sp, color = fg)
+        Icon(
+            imageVector = icon,
+            contentDescription = contentDescription,
+            modifier = Modifier.size(20.dp),
+            tint = fg
+        )
     }
 }
 
@@ -849,7 +873,12 @@ fun LibraryScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = IconMusicNote, fontSize = 28.sp)
+                        Icon(
+                imageVector = Icons.Filled.MusicNote,
+                contentDescription = null,
+                modifier = Modifier.size(36.dp),
+                tint = AccentPrimary
+            )
                         Spacer(Modifier.height(8.dp))
                         Text(
                             text = "No saved songs yet",
@@ -923,9 +952,10 @@ private fun SavedTrackCard(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = IconMusicNote,
-                    color = AccentPrimary,
-                    fontSize = 14.sp
+                    imageVector = Icons.Filled.MusicNote,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                    tint = AccentPrimary
                 )
             }
 
@@ -957,10 +987,11 @@ private fun SavedTrackCard(
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = IconClose,
-                    color = TextTertiary,
-                    fontSize = 12.sp
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = "Delete ${track.title}",
+                    modifier = Modifier.size(14.dp),
+                    tint = TextTertiary
                 )
             }
         }
