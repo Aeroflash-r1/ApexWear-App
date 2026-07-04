@@ -51,8 +51,8 @@ val PlayerBgStart = Color(0xFF0A0A0C)
 val PlayerBgEnd = Color(0xFF1C1412) // Slight warm tint
 
 // ═══════════════════════════════════════════════
-//  M3 ColorScheme builder — derives all 28
-//  tokens from the coral accent
+//  M3 ColorScheme builder — Wear M3 ColorScheme
+//  has fewer tokens than standard M3
 // ═══════════════════════════════════════════════
 
 fun coralColorScheme(): ColorScheme = ColorScheme(
@@ -70,18 +70,11 @@ fun coralColorScheme(): ColorScheme = ColorScheme(
     onTertiaryContainer = AccentLight,
     background = BgDark,
     onBackground = TextPrimary,
-    surface = BgSurface,
     onSurface = TextPrimary,
-    surfaceVariant = SurfaceLight,
-    onSurfaceVariant = TextSecondary,
     error = ErrorRed,
     onError = TextPrimary,
     errorContainer = ErrorRed.copy(alpha = 0.20f),
     onErrorContainer = ErrorRed,
     outline = Color(0xFF444444),
-    outlineVariant = Color(0xFF333333),
-    inverseSurface = TextPrimary,
-    inverseOnSurface = BgDark,
-    inversePrimary = AccentPrimary,
-    scrim = ScrimBlack60
+    outlineVariant = Color(0xFF333333)
 )
