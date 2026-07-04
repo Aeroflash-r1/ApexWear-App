@@ -65,9 +65,8 @@ import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
-import androidx.wear.compose.material3.FilledTonalButton
-import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.Text
 import com.echostream.data.db.TrackEntity
 import com.echostream.data.model.SearchResult
@@ -183,7 +182,7 @@ fun SearchScreen(
                         Text("Search", maxLines = 1)
                     }
 
-                    FilledTonalButton(
+                    OutlinedButton(
                         modifier = Modifier.weight(1f),
                         onClick = onOpenLibrary
                     ) {
@@ -789,7 +788,7 @@ private fun ActionButton(
         onClick = onClick,
         modifier = modifier.height(44.dp),
         shape = RoundedCornerShape(22.dp),
-        colors = ButtonDefaults.filledTonalButtonColors(
+        colors = ButtonDefaults.buttonColors(
             containerColor = bg,
             contentColor = fg
         )
