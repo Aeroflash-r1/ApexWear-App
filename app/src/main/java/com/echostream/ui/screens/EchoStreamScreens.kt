@@ -191,8 +191,7 @@ fun SearchScreen(
                     Spacer(Modifier.height(12.dp))
                     CircularProgressIndicator(
                         modifier = Modifier.size(36.dp),
-                        strokeWidth = 3.dp,
-                        color = SpotifyGreen
+                        strokeWidth = 3.dp
                     )
                 }
             }
@@ -375,12 +374,14 @@ private fun SearchResultCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        background = CardBGLight
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(14.dp))
+                .background(CardBGLight)
+                .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Thumbnail placeholder
@@ -605,8 +606,7 @@ fun PlayerScreen(
                 AnimatedVisibility(visible = isBuffering) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(28.dp),
-                        strokeWidth = 2.5.dp,
-                        color = SpotifyGreen
+                        strokeWidth = 2.5.dp
                     )
                 }
 
@@ -1006,12 +1006,14 @@ private fun SavedTrackCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        background = CardBGLight
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(14.dp))
+                .background(CardBGLight)
+                .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Track number placeholder
